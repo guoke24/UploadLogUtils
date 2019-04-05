@@ -49,7 +49,7 @@ public class LogUtil {
     }
 
     public static void setLogFilePath(String value){
-        LOGFILEPATH = value;
+        LOGFILEPATH = "/data/user/0/" + value + "/";
     }
 
     public static String getLogFilePath(){

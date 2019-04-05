@@ -161,7 +161,7 @@ public class CrashLogUtil implements UncaughtExceptionHandler {
         sb.append(result);
 
         // 写入log到文件
-        // LogUtil.writeLog("Crash Log ",sb.toString());
+        LogUtil.writeLog("Crash Log ",sb.toString());
 
         return null;
     }
