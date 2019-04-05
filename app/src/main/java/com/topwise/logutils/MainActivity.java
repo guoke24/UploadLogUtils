@@ -1,6 +1,6 @@
 package com.topwise.logutils;
 
-import android.support.v7.app.AppCompatActivity;
+
 import android.os.Bundle;
 import android.view.View;
 
@@ -30,9 +30,21 @@ public class MainActivity extends BaseTestActivity {
 
         LogUtil.d("test");
 
-        String ss = "123";
-        ss.charAt(5);//越界错误的捕捉
+        //String ss = "123";
+        //ss.charAt(5);//越界错误的捕捉
 
     }
 
+    private static String FTP_SERVER = "";
+    private static int FTP_PORT = 0;
+    private static String FTP_USERNAME = "";
+    private static String FTP_PASSWORD = "";
+
+    public void test_2(View v){
+        LogUtil.setFtpServer(FTP_SERVER);
+        LogUtil.setFtpPort(FTP_PORT);
+        LogUtil.setFtpUsername(FTP_USERNAME);
+        LogUtil.setFtpPassword(FTP_PASSWORD);
+        LogUtil.startUplaod(0);
+    }
 }

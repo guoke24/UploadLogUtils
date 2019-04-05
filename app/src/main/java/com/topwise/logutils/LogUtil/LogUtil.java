@@ -253,4 +253,63 @@ public class LogUtil {
         LogUtil.d(":"+name);
         return name;
     }
+
+
+    public static FTPClientFunctions ftpClient;
+
+    private static  String FTP_SERVER ;
+    private static  String FTP_USERNAME ;
+    private static  String FTP_PASSWORD ;
+    private static  int FTP_PORT ;
+
+    public static void setFtpServer(String ftpServer) {
+        FTP_SERVER = ftpServer;
+    }
+
+    public static void setFtpUsername(String ftpUsername) {
+        FTP_USERNAME = ftpUsername;
+    }
+
+    public static void setFtpPassword(String ftpPassword) {
+        FTP_PASSWORD = ftpPassword;
+    }
+
+    public static void setFtpPort(int ftpPort) {
+        FTP_PORT = ftpPort;
+    }
+
+
+    /**
+     * 上传log
+     * 根据flag选择上传哪一天
+     */
+    public static void startUplaod(final int flag){
+
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                // TODO 可以首先去判断一下网络
+                ftpClient = new FTPClientFunctions();
+                boolean connectResult = ftpClient.ftpConnect(FTP_SERVER, FTP_USERNAME, FTP_PASSWORD, FTP_PORT);
+                if (connectResult) {
+                    int uploadResult = ftpClient.ftpUpload(flag);
+                    if (uploadResult == 0) {
+                        LogUtil.w( "上传成功");
+                        boolean disConnectResult = ftpClient.ftpDisconnect();
+                        if(disConnectResult) {
+                            LogUtil.e( "关闭ftp连接成功");
+                        } else {
+                            LogUtil.e( "关闭ftp连接失败");
+                        }
+                    } else if(uploadResult == 1) {
+                        LogUtil.w( "上传失败");
+                    }else if(uploadResult == 2){
+                        LogUtil.w( "Log文件不存在");
+                    }
+                } else {
+                    LogUtil.w("连接ftp服务器失败");
+                }
+            }
+        }).start();
+    }
 }
